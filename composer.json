@@ -1,0 +1,13 @@
+{
+    "name": "barell/docman",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Bartosz Tomczak",
+            "email": "bosslog@gmail.com"
+        }
+    ],
+    "require": {
+        "symfony/yaml": "^3.2"
+    }
+}
