@@ -1,4 +1,4 @@
 #!/usr/bin/php
 <?php
 
-require "cli.php";
+require "/etc/docman/bin/cli.php";
