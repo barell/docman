@@ -9,9 +9,9 @@ sudo rm -rf /etc/docman
 
 Install fresh:
 ``` 
-wget -O docman-latest.tar.gz https://github.com/barell/docman/archive/master.tar.gz
-tar -xvf docman-latest.tar.gz
-sudo mv docman-latest /etc/docman
+wget -O docman-master.tar.gz https://github.com/barell/docman/archive/master.tar.gz
+tar -xvf docman-master.tar.gz
+sudo mv docman-master /etc/docman
 sudo symlink /usr/bin/docman /etc/docman/bin/docman
 ```
 
