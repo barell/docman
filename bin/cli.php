@@ -10,8 +10,17 @@ if ($argv[1] != 'generate') {
     exit("Command " . $argv[1] . " not found\n");
 }
 
+if (!isset($argv[2])) {
+    exit("Please specify an output file\n");
+}
+
+$methodsFile = $argv[2];
+
+if (strpos($methodsFile, '//') !== 0) {
+    $methodsFile = getcwd() . '/' . $methodsFile;
+}
+
 $input = getcwd() . '/doc.yml';
-$methodsFile = getcwd() . '/METHODS.md';
 
 use Symfony\Component\Yaml\Yaml;
 
@@ -50,17 +59,33 @@ foreach ($packages as $packageName => $package) {
         }
 
         if (isset($method['params'])) {
-            $output .= 'Name | Required | Type | Description' . "\n";
-            $output .= '--- | --- | --- | ---' . "\n";
+            $output .= 'Name | Type | Required | Default | Description' . "\n";
+            $output .= '--- | --- | --- | --- | ---' . "\n";
 
             foreach ($method['params'] as $paramName => $param) {
                 $required = $param['required'] ? 'Yes' : 'No';
                 $description = isset($param['description']) ? $param['description'] : '';
+                $default = isset($param['default']) ? $param['default'] : '';
 
-                $output .= '`' . $paramName . '` | *' . $param['type'] . '* | ' . $required . ' | ' . $description . "\n";
+                $output .= '`' . $paramName . '` | *' . $param['type'] . '* | ' . $required . ' | ' . $default . ' | ' . $description . "\n";
             }
 
             $output .= "\n";
+        }
+
+        if (isset($method['examples'])) {
+            foreach ($method['examples'] as $exampleName => $example) {
+                $output .= '##### Example ' . ucfirst($exampleName) . "\n";
+
+                if (isset($example['json'])) {
+                    $output .= '```' . "\n";
+
+                    $array = json_decode($example['json'], true);
+                    $output .= json_encode($array, JSON_PRETTY_PRINT) . "\n";
+
+                    $output .= '```' . "\n";
+                }
+            }
         }
     }
 }
