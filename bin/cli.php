@@ -1,9 +1,15 @@
 <?php
 
+define('DOCMAN_VERSION', '1.0.1');
+
 require __DIR__ . '/../vendor/autoload.php';
 
 if (!isset($argv[1])) {
     exit("Please specify a command\n");
+}
+
+if ($argv[1] == 'version') {
+    exit("docman v" . DOCMAN_VERSION . "\n");
 }
 
 if ($argv[1] != 'generate') {
