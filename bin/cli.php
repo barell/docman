@@ -30,6 +30,11 @@ if (!isset($data['interface'])) {
     exit("Interface not found\n");
 }
 
+$definedErrorCodes = [];
+if (isset($data['error_codes'])) {
+    $definedErrorCodes = $data['error_codes'];
+}
+
 $output = '# Interface' . "\n\n";
 
 $packages = [];
@@ -73,6 +78,16 @@ foreach ($packages as $packageName => $package) {
             $output .= "\n";
         }
 
+        if (isset($method['error_codes'])) {
+            $output .= '##### Error Codes' . "\n";
+
+            foreach ($method['error_codes'] as $code) {
+                $output .= '`' . $code . '` ';
+            }
+
+            $output .= "\n\n";
+        }
+
         if (isset($method['examples'])) {
             foreach ($method['examples'] as $exampleName => $example) {
                 $output .= '##### Example ' . ucfirst($exampleName) . "\n";
@@ -87,6 +102,17 @@ foreach ($packages as $packageName => $package) {
                 }
             }
         }
+    }
+}
+
+if (count($definedErrorCodes)) {
+    $output .= "\n" . '# Error Codes' . "\n\n";
+
+    $output .= 'Code | Description' . "\n";
+    $output .= '--- | ---' . "\n";
+
+    foreach ($definedErrorCodes as $errorCode => $message) {
+        $output .= $errorCode . ' | ' .$message . "\n";
     }
 }
 
