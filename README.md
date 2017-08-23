@@ -1,5 +1,12 @@
 # docman
 
+## Changelog
+1.0.1 (2017-08-22)
+- Added error codes support
+
+1.0.0 (2017-04-23)
+- Initial version
+
 ## Installation
 
 Remove current docman installation:
@@ -26,11 +33,8 @@ To generate md file from doc.yml, use:
 docman generate METHODS.md
 ```
 
+## Version Check
 Check docman version:
 ```
 docman version
-```
-Should output something like
-```
-docman v1.0.1
 ```
