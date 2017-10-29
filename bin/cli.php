@@ -96,7 +96,7 @@ foreach ($packages as $packageName => $package) {
             $output .= '--- | ---' . "\n";
 
             foreach ($method['error_codes'] as $code) {
-                $output .= $code . ' | ' . isset($definedErrorCodes[$code]) ? $definedErrorCodes[$code] : 'Unknown' . "\n";
+                $output .= $code . ' | ' . (isset($definedErrorCodes[$code]) ? $definedErrorCodes[$code] : 'Unknown') . "\n";
             }
 
             $output .= "\n\n";
