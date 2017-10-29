@@ -1,8 +1,13 @@
 <?php
 
-define('DOCMAN_VERSION', '1.0.1');
+define('DOCMAN_VERSION', '1.0.2');
 
 require __DIR__ . '/../vendor/autoload.php';
+
+function tableEscape($text)
+{
+    return str_replace('|', '&#124;', $text);
+}
 
 if (!isset($argv[1])) {
     exit("Please specify a command\n");
@@ -78,7 +83,7 @@ foreach ($packages as $packageName => $package) {
                 $description = isset($param['description']) ? $param['description'] : '';
                 $default = isset($param['default']) ? $param['default'] : '';
 
-                $output .= '`' . $paramName . '` | *' . $param['type'] . '* | ' . $required . ' | ' . $default . ' | ' . $description . "\n";
+                $output .= '`' . $paramName . '` | *' . tableEscape($param['type']) . '* | ' . $required . ' | ' . $default . ' | ' . tableEscape($description) . "\n";
             }
 
             $output .= "\n";
@@ -87,8 +92,11 @@ foreach ($packages as $packageName => $package) {
         if (isset($method['error_codes'])) {
             $output .= '##### Error Codes' . "\n";
 
+            $output .= 'Code | Description' . "\n";
+            $output .= '--- | ---' . "\n";
+
             foreach ($method['error_codes'] as $code) {
-                $output .= '`' . $code . '` ';
+                $output .= $code . ' | ' . isset($definedErrorCodes[$code]) ? $definedErrorCodes[$code] : 'Unknown' . "\n";
             }
 
             $output .= "\n\n";
@@ -106,19 +114,16 @@ foreach ($packages as $packageName => $package) {
 
                     $output .= '```' . "\n";
                 }
+
+                if (isset($example['text'])) {
+                    $output .= '```' . "\n";
+
+                    $output .= $example['text'] . "\n";
+
+                    $output .= '```' . "\n";
+                }
             }
         }
-    }
-}
-
-if (count($definedErrorCodes)) {
-    $output .= "\n" . '# Error Codes' . "\n\n";
-
-    $output .= 'Code | Description' . "\n";
-    $output .= '--- | ---' . "\n";
-
-    foreach ($definedErrorCodes as $errorCode => $message) {
-        $output .= $errorCode . ' | ' .$message . "\n";
     }
 }
 

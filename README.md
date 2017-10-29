@@ -1,6 +1,11 @@
 # docman
 
 ## Changelog
+1.0.2 (2017-10-29)
+- Updated error formatting to display a message within the endpoint
+- Added new example type 'text' to support non JSON data
+- Added pipe sign escape in table output
+
 1.0.1 (2017-08-22)
 - Added error codes support
 
